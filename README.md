@@ -1,6 +1,6 @@
-# Hoook.io
+# Capitaly
 
-An AI Agent Builder for Marketing
+An AI Agentic Platform for Investor Research, Outreach, Raising Capital & Engagement
 
 ![Dashboard](./dashboard.png)
 
@@ -80,7 +80,7 @@ If you added a custom database name, or use a cloud based database, you will nee
 
 ### 4. Migrate your database
 
-Once your database is running, you’ll need to create and apply migrations to set up the necessary tables. Run the database migration command:
+Once your database is running, you'll need to create and apply migrations to set up the necessary tables. Run the database migration command:
 
 ```bash
 # Using npm
@@ -104,7 +104,7 @@ bun run db:migrate:dev
 
 </details>
 
-You’ll be prompted to name the migration. Once you provide a name, Prisma will create and apply the migration to your database.
+You'll be prompted to name the migration. Once you provide a name, Prisma will create and apply the migration to your database.
 
 > Note: The `db:migrate:dev` script (located in [packages/database/package.json](/packages/database/package.json)) uses [Prisma Migrate](https://www.prisma.io/migrate) under the hood.
 
@@ -112,7 +112,7 @@ For production environments, always push schema changes to your database using t
 
 ### 5. Seed your database
 
-To populate your database with initial or fake data, use [Prisma&#39;s seeding functionality](https://www.prisma.io/docs/guides/database/seed-database).
+To populate your database with initial or fake data, use [Prisma's seeding functionality](https://www.prisma.io/docs/guides/database/seed-database).
 
 Update the seed script located at [`packages/database/src/seed.ts`](/packages/database/src/seed.ts) to include any additional data that you want to seed. Once edited, run the seed command:
 
