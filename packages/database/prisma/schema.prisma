@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated/client"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+}
+
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  userId    String   // This will store Clerk's user ID
+  name      String
+  key       String   @unique
+  createdAt DateTime @default(now())
+  lastUsed  DateTime?
+}
+
+model Agent {
+  id          String      @id @default(cuid())
+  name        String
+  description String?     @db.Text
+  userId      String      // This will store Clerk's user ID
+  type        String      // content, social, seo, analytics, etc.
+  config      Json        // Agent configuration JSON
+  tools       String[]    // Array of tool IDs this agent can use
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  runs        AgentRun[]
+  workflows   WorkflowStep[]
+  memories    AgentMemory[]
+}
+
+model Workflow {
+  id          String         @id @default(cuid())
+  name        String
+  description String?        @db.Text
+  userId      String         // This will store Clerk's user ID
+  steps       WorkflowStep[]
+  schedule    String?        // Cron expression for scheduling
+  isActive    Boolean        @default(true)
+  runs        WorkflowRun[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model WorkflowStep {
+  id         String   @id @default(cuid())
+  workflowId String
+  workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  agentId    String
+  agent      Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  order      Int
+  config     Json     // Step-specific configuration
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model WorkflowRun {
+  id         String      @id @default(cuid())
+  workflowId String
+  workflow   Workflow    @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  status     RunStatus
+  result     Json?       // Output of the workflow run
+  startedAt  DateTime    @default(now())
+  endedAt    DateTime?
+  agentRuns  AgentRun[]
+}
+
+model AgentRun {
+  id           String       @id @default(cuid())
+  agentId      String
+  agent        Agent        @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  userId       String
+  workflowRunId String?
+  workflowRun  WorkflowRun? @relation(fields: [workflowRunId], references: [id], onDelete: SetNull)
+  status       RunStatus
+  input        Json?        // Input to the agent
+  output       Json?        // Output of the agent
+  logs         Json?        // Array of log entries
+  startedAt    DateTime     @default(now())
+  endedAt      DateTime?
+  memory       AgentMemory? // Link to the memory for this run
+}
+
+// New model for agent memory
+model AgentMemory {
+  id           String       @id @default(cuid())
+  agentId      String
+  agent        Agent        @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  agentRunId   String?      @unique  // Optional link to specific run
+  agentRun     AgentRun?    @relation(fields: [agentRunId], references: [id], onDelete: SetNull)
+  sessionId    String?      // For grouping related runs (e.g., conversation session)
+  messages     Json         // Array of message objects, each with role, content, timestamp
+  metadata     Json?        // Any additional metadata about the memory
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+enum RunStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// New model for integrations
+model Integration {
+  id          String   @id @default(cuid())
+  userId      String   // This will store Clerk's user ID
+  type        String   // Google, Webflow, etc.
+  credentials Json     // Encrypted credentials
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, type])
+}

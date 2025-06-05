@@ -1,0 +1,74 @@
+volumes:
+  database:
+    driver: local
+  redis_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: turborepo_postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: keyvan.kasaei
+      POSTGRES_DB: monorepo
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keyvan.kasaei -d monorepo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: turborepo_redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: turborepo_web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://keyvan.kasaei@postgres:5432/monorepo
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    container_name: turborepo_worker
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_URL=postgresql://keyvan.kasaei@postgres:5432/monorepo
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
