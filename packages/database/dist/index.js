@@ -5976,7 +5976,7 @@ var require_client = __commonJS({
           "value": "prisma-client-js"
         },
         "output": {
-          "value": "/Users/kevin/Documents/Keyvan/Projects/HOOOKio/hoook-turbo/packages/database/generated/client",
+          "value": "/Users/kevin/Documents/Keyvan/Projects/capitaly/projects/capitaly/packages/database/generated/client",
           "fromEnvVar": null
         },
         "config": {
@@ -5990,7 +5990,7 @@ var require_client = __commonJS({
           }
         ],
         "previewFeatures": [],
-        "sourceFilePath": "/Users/kevin/Documents/Keyvan/Projects/HOOOKio/hoook-turbo/packages/database/prisma/schema.prisma",
+        "sourceFilePath": "/Users/kevin/Documents/Keyvan/Projects/capitaly/projects/capitaly/packages/database/prisma/schema.prisma",
         "isCustomOutput": true
       },
       "relativeEnvPaths": {
