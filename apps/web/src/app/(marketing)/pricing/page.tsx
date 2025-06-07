@@ -7,6 +7,12 @@ import { useState } from "react"
 import Navigation from '@/components/Navigation'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export default function PricingPage() {
   const [isYearly, setIsYearly] = useState(false)
@@ -27,7 +33,7 @@ export default function PricingPage() {
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16">
+          <div className="mb-16">
             <h1 className="text-5xl md:text-6xl font-bold text-black mb-4">Pricing</h1>
             <p className="text-xl text-gray-600">Choose the plan that works for you</p>
           </div>
@@ -58,10 +64,10 @@ export default function PricingPage() {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16 items-stretch h-full">
             {/* Start Plan */}
-            <Card className="relative overflow-hidden">
-              <CardContent className="p-8">
+            <Card className="relative overflow-hidden flex flex-col h-full">
+              <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">Start</h3>
                   <div className="flex items-baseline">
@@ -92,19 +98,22 @@ export default function PricingPage() {
                       <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
                       <span className="text-gray-700">Email support</span>
                     </li>
+                    <li className="flex items-center">
+                      <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
+                      <span className="text-gray-700">Training Material</span>
+                    </li>
                   </ul>
                 </div>
 
-                <Button className="w-full bg-black text-white hover:bg-gray-800">Get Started</Button>
+                <div className="mt-auto">
+                  <Button className="w-full bg-black text-white hover:bg-gray-800 px-8 py-5 text-lg font-bold shadow-lg transition-transform duration-200 hover:scale-105">Get Started</Button>
+                </div>
               </CardContent>
             </Card>
 
             {/* Pro Plan */}
-            <Card className="relative overflow-hidden border-2 border-blue-500">
-              <div className="absolute top-0 left-0 right-0 bg-blue-500 text-white text-center py-2 text-sm font-medium">
-                Most Popular
-              </div>
-              <CardContent className="p-8">
+            <Card className="relative overflow-hidden flex flex-col h-full bg-gradient-to-b from-transparent via-blue-100 to-red-200">
+              <CardContent className="p-8 flex-1 flex flex-col bg-transparent">
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">Pro</h3>
                   <div className="flex items-baseline">
@@ -142,13 +151,15 @@ export default function PricingPage() {
                   </ul>
                 </div>
 
-                <Button className="w-full bg-blue-500 text-white hover:bg-blue-600">Get Started</Button>
+                <div className="mt-auto">
+                  <Button className="w-full bg-black text-white hover:bg-gray-800 px-8 py-5 text-lg font-bold shadow-lg transition-transform duration-200 hover:scale-105">Get Started</Button>
+                </div>
               </CardContent>
             </Card>
 
             {/* Enterprise Plan */}
-            <Card className="relative overflow-hidden">
-              <CardContent className="p-8">
+            <Card className="relative overflow-hidden flex flex-col h-full">
+              <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">Enterprise</h3>
                   <div className="flex items-baseline">
@@ -180,13 +191,113 @@ export default function PricingPage() {
                       <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
                       <span className="text-gray-700">Custom integrations</span>
                     </li>
+                    <li className="flex items-center">
+                      <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
+                      <span className="text-gray-700">SOC2 compliance</span>
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
+                      <span className="text-gray-700">Advanced security features</span>
+                    </li>
                   </ul>
                 </div>
 
-                <Button className="w-full bg-black text-white hover:bg-gray-800">Contact Sales</Button>
+                <div className="mt-auto">
+                  <Button className="w-full bg-black text-white hover:bg-gray-800 px-8 py-5 text-lg font-bold shadow-lg transition-transform duration-200 hover:scale-105">Contact Sales</Button>
+                </div>
               </CardContent>
             </Card>
           </div>
+        </div>
+      </div>
+
+      {/* Price Comparison Table */}
+      <div className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-black mb-12">Detailed Feature Comparison</h2>
+          <p className="text-xl text-gray-600 mb-12">Have questions? We're here to help you choose the right plan for your needs.</p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-4 px-6 font-semibold text-gray-900">Features</th>
+                  <th className="text-center py-4 px-6 font-semibold text-gray-900">Start</th>
+                  <th className="text-center py-4 px-6 font-semibold text-gray-900">Pro</th>
+                  <th className="text-center py-4 px-6 font-semibold text-gray-900">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-200">
+                  <td className="py-4 px-6 text-gray-700">Team Members</td>
+                  <td className="text-center py-4 px-6">Up to 5</td>
+                  <td className="text-center py-4 px-6">Up to 20</td>
+                  <td className="text-center py-4 px-6">Unlimited</td>
+                </tr>
+                <tr className="border-b border-gray-200">
+                  <td className="py-4 px-6 text-gray-700">Investor Matching</td>
+                  <td className="text-center py-4 px-6">Basic</td>
+                  <td className="text-center py-4 px-6">Advanced</td>
+                  <td className="text-center py-4 px-6">Custom</td>
+                </tr>
+                <tr className="border-b border-gray-200">
+                  <td className="py-4 px-6 text-gray-700">Data Room</td>
+                  <td className="text-center py-4 px-6">Standard</td>
+                  <td className="text-center py-4 px-6">Enhanced</td>
+                  <td className="text-center py-4 px-6">Custom</td>
+                </tr>
+                <tr className="border-b border-gray-200">
+                  <td className="py-4 px-6 text-gray-700">Support</td>
+                  <td className="text-center py-4 px-6">Email</td>
+                  <td className="text-center py-4 px-6">Priority</td>
+                  <td className="text-center py-4 px-6">Dedicated</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="py-20 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-black mb-12">Frequently Asked Questions</h2>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="payment">
+              <AccordionTrigger className="text-xl font-semibold text-black">
+                What payment methods do you accept?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                We accept all major credit cards, PayPal, and bank transfers for annual plans.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="plans">
+              <AccordionTrigger className="text-xl font-semibold text-black">
+                Can I change plans later?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="trial">
+              <AccordionTrigger className="text-xl font-semibold text-black">
+                Is there a free trial?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                We offer a 14-day free trial for all plans. No credit card required to start.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="team">
+              <AccordionTrigger className="text-xl font-semibold text-black">
+                What happens if I exceed my team member limit?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                You'll be notified when approaching your limit. You can upgrade your plan at any time to accommodate more team members.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
 

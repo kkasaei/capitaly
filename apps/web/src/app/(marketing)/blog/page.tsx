@@ -12,8 +12,11 @@ export default function BlogPage() {
       {/* Main Content */}
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold text-black mb-4">Blog</h1>
-          <p className="text-xl text-gray-600">Coming soon...</p>
+          {/* Header */}
+          <div className="mb-16">
+            <h1 className="text-5xl md:text-6xl font-bold text-black mb-4">Blog</h1>
+            <p className="text-xl text-gray-600">Coming soon...</p>
+          </div>
         </div>
       </div>
 
